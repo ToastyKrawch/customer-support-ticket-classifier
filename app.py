@@ -1,3 +1,4 @@
+import qrcode
 import streamlit as st
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -5,6 +6,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 MODEL_REPO = "ToastyKrawch/customer-support-ticket-distilbert"
 MAX_LENGTH = 256
+APP_URL = "https://customer-support-ticket-classifier-g6cwpvwwbfyr5fyw2vmv6m.streamlit.app/"
 
 
 st.set_page_config(
@@ -67,6 +69,33 @@ st.title("Customer Support Ticket Classifier")
 st.write(
     "Enter the subject and description of a customer support ticket. "
     "The model will classify the ticket into one of four categories."
+)
+
+st.subheader("Try it yourself")
+
+st.write(
+    "Scan the QR code with your phone to open the classifier "
+    "and submit your own support ticket."
+)
+
+qr = qrcode.QRCode(
+    version=None,
+    box_size=8,
+    border=4
+)
+
+qr.add_data(APP_URL)
+qr.make(fit=True)
+
+qr_image = qr.make_image(
+    fill_color="black",
+    back_color="white"
+)
+
+st.image(
+    qr_image,
+    caption="Scan to open the live application",
+    width=220
 )
 
 with st.expander("What do the ticket types mean?"):
