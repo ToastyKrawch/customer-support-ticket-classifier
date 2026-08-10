@@ -2,3 +2,4 @@ streamlit
 torch
 transformers==5.13.1
 safetensors
+qrcode[pil]
