@@ -21,7 +21,7 @@ MAX_LENGTH = 256
 
 st.set_page_config(
     page_title="Customer Support Ticket Classifier",
-    layout="centered"
+    layout="wide"
 )
 
 
@@ -80,7 +80,7 @@ def predict_ticket(subject, body):
 
 
 # --------------------------------------------------
-# QR code
+# Generate QR code
 # --------------------------------------------------
 
 @st.cache_data
@@ -109,55 +109,54 @@ qr_code = generate_qr_code(APP_URL)
 
 
 # --------------------------------------------------
-# Page header
+# Sidebar
+# --------------------------------------------------
+
+with st.sidebar:
+    st.header("Try it yourself")
+
+    st.write(
+        "Scan this QR code to open the classifier "
+        "on your phone."
+    )
+
+    st.image(
+        qr_code,
+        width=190
+    )
+
+    st.divider()
+
+    st.subheader("Ticket Types")
+
+    st.markdown(
+        """
+        **Incident**  
+        An unexpected issue or service interruption.
+
+        **Request**  
+        A request for access, information, software, or another service.
+
+        **Change**  
+        A request to modify an existing system, configuration, or service.
+
+        **Problem**  
+        A recurring or underlying issue that may require investigation.
+        """
+    )
+
+
+# --------------------------------------------------
+# Main page
 # --------------------------------------------------
 
 st.title("Customer Support Ticket Classifier")
 
-intro_col, qr_col = st.columns([2.3, 1])
-
-with intro_col:
-    st.write(
-        "Enter the subject and description of a customer support ticket. "
-        "The model will classify the ticket into one of four categories."
-    )
-
-    st.write(
-        "Our classifier uses a fine-tuned **DistilBERT** model to analyze "
-        "the customer's written ticket and predict its most likely type."
-    )
-
-with qr_col:
-    st.markdown("#### Try it yourself")
-
-    st.image(
-        qr_code,
-        width=175
-    )
-
-    st.link_button(
-        "Open App",
-        APP_URL,
-        use_container_width=True
-    )
-
-
-# --------------------------------------------------
-# Ticket type information
-# --------------------------------------------------
-
-with st.expander("What do the ticket types mean?"):
-    st.markdown(
-        """
-        - **Incident** — An unexpected issue or service interruption that needs attention.
-        - **Request** — A user asking for access, information, software, or another service.
-        - **Change** — A request to modify an existing system, configuration, or service.
-        - **Problem** — A recurring or underlying issue that may require further investigation.
-        """
-    )
-
-
-st.divider()
+st.write(
+    "Enter the subject and description of a customer support ticket. "
+    "Our fine-tuned DistilBERT model will classify it as "
+    "**Change, Incident, Problem, or Request**."
+)
 
 
 # --------------------------------------------------
@@ -235,8 +234,6 @@ if submitted:
 # --------------------------------------------------
 # Footer
 # --------------------------------------------------
-
-st.divider()
 
 st.caption(
     "PROG74040 — Advanced Topics in Artificial Intelligence "
